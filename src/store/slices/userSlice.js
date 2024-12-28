@@ -134,7 +134,7 @@ export const register = (data) => async (dispatch) => {
       data,
       {
         withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },  //multipart/form-data used when we are handeling file here we have image file .
+        headers: { "Content-Type": "multipart/form-data" },
       }
     );
     console.log(response)
