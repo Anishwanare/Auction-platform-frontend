@@ -25,11 +25,11 @@ const AuctioneerAuctionItemDetail = lazy(() => import('./pages/AuctioneerAuction
 const MyAuction = lazy(() => import('./pages/MyAuction'));
 const CreateAuction = lazy(() => import('./pages/CreateAuction'));
 const AdminDashboard = lazy(() => import('./pages/Admin/AdminDashboard'));
-const Messages = (() => import('./pages/Admin/Messages'));
-const Bidders = (() => import('./pages/Admin/Bidders'));
-const Auctioneers = (() => import('./pages/Admin/Auctioneers'));
-const PaymentsProofs = (() => import('./pages/Admin/PaymentsProofs'));
-const Profile = (() => import('./pages/Profile'));
+import Messages from './pages/Admin/Messages';
+import Bidders from './pages/Admin/Bidders';
+import Auctioneers from './pages/Admin/Auctioneers';
+import PaymentsProofs from './pages/Admin/PaymentsProofs';
+import Profile from './pages/Profile';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -38,6 +38,11 @@ const App = () => {
   console.log("app js ", user)
 
   console.log("isAutheticated", isAuthenticated);
+
+
+
+
+
 
   useEffect(() => {
     dispatch(fetchAdminProfile());
