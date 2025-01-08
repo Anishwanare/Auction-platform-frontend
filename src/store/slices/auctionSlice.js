@@ -77,6 +77,15 @@ const auctionSlice = createSlice({
         republishAuctionFailed(state) {
             state.loading = false
         },
+        AdminAuctionItemDeleteRequest(state) {
+            state.loading = true
+        },
+        AdminAuctionItemDeleteSuccess(state) {
+            state.loading = false
+        },
+        AdminAuctionItemDeleteFailed(state) {
+            state.loading = false
+        },
         resetSlice(state) {
             state.loading = false;
             state.auctionDetails = state.auctionDetails;
@@ -191,6 +200,21 @@ export const republishMyAuction = (id, data) => async (dispatch) => {
 
     }
 }
+
+//superadmin: auction item delete
+export const AdminDeleteAuctionItem = (id) => async (dispatch) => {
+    dispatch(auctionSlice.actions.AdminAuctionItemDeleteRequest())
+    try {
+        const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v4/superadmin//auction-items/${id}`, { withCredentials: true })
+        dispatch(auctionSlice.actions.AdminAuctionItemDeleteSuccess())
+        toast.success(response.data?.message)
+        dispatch(getAllAuctionItems())
+    } catch (error) {
+        toast.error(error.response?.data?.message)
+        console.error(error.response?.data?.message)
+    }
+}
+
 
 
 

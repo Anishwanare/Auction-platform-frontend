@@ -41,7 +41,7 @@ const Home = () => {
               </button>
             </Link>
           </div>
-          {user?.profileImage?.url && (
+          {/* {user?.profileImage?.url && (
             <div className="flex-1 flex items-center justify-center">
               <img
                 src={user.profileImage.url}
@@ -49,7 +49,7 @@ const Home = () => {
                 className="w-80 h-auto md:max-h-52 object-contain"
               />
             </div>
-          )}
+          )} */}
         </div>
       </section>
 

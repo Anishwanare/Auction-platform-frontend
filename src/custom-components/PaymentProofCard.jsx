@@ -1,7 +1,8 @@
-import { updatePaymentProof } from '@/store/slices/superAdminSlice';
+import { deletePaymentProof, updatePaymentProof } from '@/store/slices/superAdminSlice';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { MdOutlineDelete } from "react-icons/md";
 
 const PaymentProofCard = ({ receivedAmount, comment, status, proof, createdAt, userId, id }) => {
   const [amount, setAmount] = useState('');
@@ -26,6 +27,13 @@ const PaymentProofCard = ({ receivedAmount, comment, status, proof, createdAt, u
     }
   };
 
+  const handleDeleteProof = ()=>{
+    const wannaDelete = window.confirm('Are you sure want to delete payment proof?')
+    if(wannaDelete){
+      dispatch(deletePaymentProof(id))
+    }
+  }
+
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -40,6 +48,8 @@ const PaymentProofCard = ({ receivedAmount, comment, status, proof, createdAt, u
           className="w-full h-60 object-cover cursor-pointer hover:opacity-90 transition-opacity"
           onClick={toggleModal}
         />
+
+        <p className={`absolute top-4 left-4 px-3 py-1 rounded-full text-black text-xl font-bold shadow-md bg-red-500 hover:bg-red-700`} onClick={handleDeleteProof}><MdOutlineDelete /></p>
 
         {/* Status Badge */}
         <span

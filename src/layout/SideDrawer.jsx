@@ -11,10 +11,11 @@ import { VscWorkspaceUnknown } from "react-icons/vsc";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/slices/userSlice";
 import { Link, useNavigate } from "react-router-dom";
+import Spinner from "@/custom-components/Spinner";
 
 const SideDrawer = () => {
     const [show, setShow] = useState(false);
-    const { isAuthenticated, user } = useSelector((state) => state.User);
+    const { isAuthenticated, user, loading } = useSelector((state) => state.User);
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
@@ -35,6 +36,20 @@ const SideDrawer = () => {
     const handleCloseDrawer = () => {
         setShow(false); // Close the sidebar
     };
+
+
+    if(user?.role === "superAdmin"){
+        navigate("/admin-dashboard")
+    }
+
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <Spinner />
+            </div>
+        )
+    }
 
 
 

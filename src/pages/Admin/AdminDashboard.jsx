@@ -3,30 +3,33 @@ import { fetchAllPaymentsProofs, fetchAllUsers, fetchMessages, getMonthlyRevenue
 import React, { lazy, Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import PaymentGraph from './Graphs/PaymentGraph';
+import BiddersGraph from './Graphs/BiddersGraph';
+import AuctioneerGraph from './Graphs/AuctioneerGraph';
+import UsersGraph from './Graphs/UsersGraph';
 
 const AdminDashboard = () => {
     const { loading, monthlyRevenue, allUsers, paymentProofs, messages } = useSelector((state) => state.SuperAdmin);
     const { allAuctions } = useSelector((state) => state.Auction);
-    const {isAuthenticated} = useSelector((state)=>state.User)
+    const { isAuthenticated } = useSelector((state) => state.User)
     const dispatch = useDispatch();
     const navigate = useNavigate("/")
-
-
     const totalBidders = allUsers.filter((bidder) => bidder?.role === "Bidder")
     const totalAuctioneers = allUsers.filter((Auctioneer) => Auctioneer?.role === "Auctioneer")
 
-    
-    if(!isAuthenticated){
-        return navigate("/")
-    }
+
+
     useEffect(() => {
-        
         dispatch(fetchAllPaymentsProofs())
         dispatch(getMonthlyRevenue());
         dispatch(fetchAllUsers());
         dispatch(fetchAllPaymentsProofs());
         dispatch(fetchMessages());
     }, [dispatch]);
+
+    if (!isAuthenticated) {
+        return navigate("/")
+    }
 
     if (loading) {
         return (
@@ -82,7 +85,10 @@ const AdminDashboard = () => {
                     </div>
                 </Link>
             </div>
-
+            <PaymentGraph />
+            <UsersGraph/>
+            {/* <BiddersGraph/>
+            <AuctioneerGraph/> */}
         </div>
     );
 };

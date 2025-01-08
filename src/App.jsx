@@ -40,10 +40,6 @@ const App = () => {
   console.log("isAutheticated", isAuthenticated);
 
 
-
-
-
-
   useEffect(() => {
     dispatch(fetchAdminProfile());
     dispatch(fetchProfile());

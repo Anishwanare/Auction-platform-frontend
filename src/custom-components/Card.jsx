@@ -1,7 +1,14 @@
+import { AdminDeleteAuctionItem } from '@/store/slices/auctionSlice';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-const Card = ({ imgSrc, title, startTime, startingBid, currentBid,endTime, id, category }) => {
+const Card = ({ imgSrc, title, startTime, startingBid, currentBid, endTime, id, category }) => {
+
+    const dispatch = useDispatch()
+    const { isAuthenticated, user } = useSelector((state) => state.User)
+
+
     const calculateTimeLeft = () => {
         const now = new Date();
         const startDifference = new Date(startTime) - now;
@@ -31,12 +38,24 @@ const Card = ({ imgSrc, title, startTime, startingBid, currentBid,endTime, id, c
         return timeLeft;
     };
 
+
     const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+
+    const handleDeleteAuctionByAdmin = (e) => {
+        if (user?.role === "SuperAdmin" && isAuthenticated) {
+            const isConfirm = window.confirm("Are you sure want to delete Auction?")
+            if (!isConfirm) {
+                return alert("Auction is safe..")
+            }
+            dispatch(AdminDeleteAuctionItem(id))
+        }
+    }
 
     useEffect(() => {
         const timer = setTimeout(() => {
             setTimeLeft(calculateTimeLeft());
-        }, 1000); // Update every second
+        }, 1000);
 
         return () => clearTimeout(timer);
     }, [timeLeft]);
@@ -48,25 +67,32 @@ const Card = ({ imgSrc, title, startTime, startingBid, currentBid,endTime, id, c
 
     return (
         <Link
-            to={`/auction-items/details/${id}`}
             className="flex flex-col bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ease-in-out overflow-hidden group border border-gray-200"
         >
-            <div className="relative group">
-                <img
-                    src={imgSrc}
-                    alt={title}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-                {/* Hover Text */}
-                <div className="group-hover:scale-110 absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-white text-sm font-semibold">View Item</span>
+            <Link to={`/auction-items/details/${id}`}>
+                <div className="relative group">
+                    <img
+                        src={imgSrc}
+                        alt={title}
+                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    {/* Hover Text */}
+                    <div className="group-hover:scale-110 absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span className="text-white text-sm font-semibold">View Item</span>
+                    </div>
                 </div>
-            </div>
+            </Link>
 
             <div className="p-4 space-y-3">
-                <h5 className="text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors">
-                    {title}
-                </h5>
+                <div className='flex items-center justify-between'>
+                    <h5 className="text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors">
+                        {title}
+                    </h5>
+                    {user?.role === "SuperAdmin" && isAuthenticated && <h5 className="text-xs bg-red-600 p-1 px-2 hover:bg-red-700 rounded-xl text-white" onClick={handleDeleteAuctionByAdmin}>
+                        Delete Auction
+                    </h5>}
+                </div>
+
                 {startingBid && (
                     <p className="text-gray-600 text-sm">
                         <span className="font-medium text-gray-800">Starting Bid:</span>{" "}
@@ -95,7 +121,7 @@ const Card = ({ imgSrc, title, startTime, startingBid, currentBid,endTime, id, c
                     )}
                 </p>
             </div>
-        </Link>
+        </Link >
     );
 };
 

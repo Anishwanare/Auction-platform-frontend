@@ -115,6 +115,24 @@ const SuperAdminSlice = createSlice({
         deleteMessagesFailed(state) {
             state.loading = false
         },
+        deleteBidderRequest(state) {
+            state.loading = true
+        },
+        deleteBidderSuccess(state) {
+            state.loading = false
+        },
+        deleteBidderFailed(state) {
+            state.loading = false
+        },
+        clearAllSuperAdminError(state, action) {
+            state.loading = false;
+            state.monthlyRevenue = state.monthlyRevenue;
+            state.allUsers = state.allUsers;
+            state.auctionItems = state.auctionItems;
+            state.messages = state.messages;
+            state.paymentProofs = state.paymentProofs;
+            state.singlePaymentProof = {}
+        }
 
     },
 });
@@ -153,6 +171,8 @@ export const fetchAllUsers = () => async (dispatch) => {
     }
 }
 
+// payment prooof
+
 export const fetchAllPaymentsProofs = () => async (dispatch) => {
     dispatch(SuperAdminSlice.actions.fetchAllPaymentProofRequest())
     try {
@@ -186,15 +206,17 @@ export const fetchSinglePaymentProof = (id) => async (dispatch) => {
 export const deletePaymentProof = (id) => async (dispatch) => {
     dispatch(SuperAdminSlice.actions.deletePaymentProofRequest());
     try {
-        await axios.delete(
+        const response = await axios.delete(
             `${import.meta.env.VITE_API_BASE_URL}/api/v4/superadmin/delete-payment/proof/${id}`,
             { withCredentials: true }
         );
         dispatch(SuperAdminSlice.actions.deletePaymentProofSuccess());
-        // toast.success(response?.data?.message);
+        dispatch(fetchAllPaymentsProofs())
+        toast.success(response?.data?.message);
     } catch (error) {
         dispatch(SuperAdminSlice.actions.deletePaymentProofFailed());
         toast.error(error.response?.data?.message);
+        console.error(error.response?.data?.message);
     }
 };
 
@@ -204,32 +226,20 @@ export const updatePaymentProof = (id, formData) => async (dispatch) => {
         const response = await axios.put(
             `${import.meta.env.VITE_API_BASE_URL}/api/v4/superadmin/paymentproof/update/${id}`,
             formData,
-            { withCredentials: true }
+            { withCredentials: true, headers: { "Content-Type": "application/json" } }
         );
         dispatch(SuperAdminSlice.actions.updatePaymentProofSuccess());
-        dispatch(fetchAllPaymentsProofs())
         toast.success(response?.data?.message);
+        dispatch(fetchAllPaymentsProofs())
     } catch (error) {
         dispatch(SuperAdminSlice.actions.updatePaymentProofFailed());
         toast.error(error.response?.data?.message);
+        console.error(error.response?.data?.message);
+
     }
 };
 
-// export const fetchAuctionItems = () => async (dispatch) => {
-//     dispatch(SuperAdminSlice.actions.fetchAuctionItemsRequest());
-//     try {
-//         const response = await axios.get(
-//             `${import.meta.env.VITE_API_BASE_URL}/api/v4/superadmin/fetchall/items`,
-//             { withCredentials: true }
-//         );
-//         dispatch(SuperAdminSlice.actions.fetchAuctionItemsSuccess(response.data.auctionItems));
-//         // toast.success(response?.data?.message);
-//     } catch (error) {
-//         dispatch(SuperAdminSlice.actions.fetchAuctionItemsFailed());
-//         toast.error(error.response?.data?.message);
-//     }
-// };
-
+// messages
 export const fetchMessages = () => async (dispatch) => {
     dispatch(SuperAdminSlice.actions.fetchMessagesRequest());
     try {
@@ -263,6 +273,24 @@ export const deleteMessage = (id) => async (dispatch) => {
     }
 };
 
+
+// bidders
+export const deleteBidders = (id) => async (dispatch) => {
+    dispatch(SuperAdminSlice.actions.deleteBidderRequest())
+    try {
+        const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v4/superadmin/delete/${id}`, { withCredentials: true })
+        dispatch(SuperAdminSlice.actions.deleteBidderSuccess())
+        toast.success(response.data?.message)
+        dispatch(fetchAllUsers())
+    } catch (error) {
+        dispatch(SuperAdminSlice.actions.deleteMessagesFailed())
+        toast.error(error)
+    }
+}
+
+export const clearSuperAdminError = () => async (dispatch) => {
+    dispatch(SuperAdminSlice.actions.clearAllSuperAdminError)
+}
 
 
 

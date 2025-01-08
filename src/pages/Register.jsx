@@ -62,6 +62,7 @@ const Register = () => {
             formData.append("razorpayAccountNumber", razorpayAccountNumber);
             formData.append("paypalEmail", paypalEmail);
         }
+        console.log(formData)
         dispatch(register(formData));
     };
 
@@ -136,7 +137,7 @@ const Register = () => {
                                 name="userName"
                                 value={userName}
                                 placeholder="Full Name"
-                                onChange={(e) => { setUserName(e.target.value) }}
+                                onChange={(e) => { setUserName(e.target.value); console.log(e.target.value) }}
                                 className="border-b-2 outline-none text-lg py-2 transition-all duration-300 focus:border-red-500"
                                 required
                             />
@@ -148,7 +149,7 @@ const Register = () => {
                                 name="email"
                                 value={email}
                                 placeholder="Email Address"
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) => { setEmail(e.target.value); console.log(e.target.value) }}
                                 className="border-b-2 outline-none text-lg py-2 transition-all duration-300 focus:border-red-500"
                                 required
                             />
@@ -237,7 +238,7 @@ const Register = () => {
                                     <input
                                         type="number"
                                         value={accountNumber}
-                                        onChange={(e) => setAccountNumber(e.target.value)}
+                                        onChange={(e) => { setAccountNumber(e.target.value); console.log(e.target.value) }}
                                         className="border-b-2 outline-none text-lg py-2 transition-all duration-300 focus:border-red-500 hover:border-blue-300  "
                                         placeholder="Enter Account Number"
                                     />
@@ -247,7 +248,7 @@ const Register = () => {
                                     <label className="text-[16px] font-medium mb-2 text-gray-700">Bank Name:</label>
                                     <select
                                         value={bankName}
-                                        onChange={(e) => setBankName(e.target.value)}
+                                        onChange={(e) => { setBankName(e.target.value); console.log(e.target.value) }}
                                         className="border-b-2 outline-none text-lg py-2 transition-all duration-300 focus:border-red-500 hover:border-blue-300  "
                                     >
                                         <option value="" disabled>Select a Bank</option>
@@ -266,7 +267,7 @@ const Register = () => {
                                     <input
                                         type="text"
                                         value={bankIFSCCode}
-                                        onChange={(e) => setBankIFSCCode(e.target.value)}
+                                        onChange={(e) => { setBankIFSCCode(e.target.value); console.log(e.target.value) }}
                                         className="border-b-2 outline-none text-lg py-2 transition-all duration-300 focus:border-red-500 hover:border-blue-300  "
                                         placeholder="Enter IFSC Code"
                                     />
@@ -279,7 +280,7 @@ const Register = () => {
                                     <input
                                         type="number"
                                         value={razorpayAccountNumber}
-                                        onChange={(e) => setRazorpayAccountNumber(e.target.value)}
+                                        onChange={(e) => { setRazorpayAccountNumber(e.target.value); console.log(e.target.value) }}
                                         className="border-b-2 outline-none text-lg py-2 transition-all duration-300 focus:border-red-500 hover:border-blue-300  "
                                         placeholder="Enter Razorpay Account Number"
                                     />
@@ -290,7 +291,7 @@ const Register = () => {
                                     <input
                                         type="email"
                                         value={paypalEmail}
-                                        onChange={(e) => setPaypalEmail(e.target.value)}
+                                        onChange={(e) => { setPaypalEmail(e.target.value); console.log(e.target.value) }}
                                         className="border-b-2 outline-none text-lg py-2 transition-all duration-300 focus:border-red-500 hover:border-blue-300  "
                                         placeholder="Enter PayPal Email"
                                     />

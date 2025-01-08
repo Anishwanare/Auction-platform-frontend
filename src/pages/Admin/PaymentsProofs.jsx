@@ -8,7 +8,7 @@ const PaymentsProofs = () => {
     const { user, isAuthenticated } = useSelector((state) => state.User);
     const { paymentProofs, loading, error } = useSelector((state) => state.SuperAdmin);
 
-    console.log("paymets prood",paymentProofs)
+    console.log("paymets prood", paymentProofs)
 
     const dispatch = useDispatch();
 
@@ -35,7 +35,7 @@ const PaymentsProofs = () => {
 
             {/* Render payment proof cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {paymentProofs?.map((paymentProof) => (
+                {paymentProofs && paymentProofs?.map((paymentProof) => (
                     <div key={paymentProof._id}>
                         <PaymentProofCard
                             receivedAmount={paymentProof.amount}
@@ -48,6 +48,12 @@ const PaymentsProofs = () => {
                         />
                     </div>
                 ))}
+            </div>
+            
+            <div className="">
+                {paymentProofs.length <= 0 && <>
+                    <p>No payment proofs found!</p>
+                </> }
             </div>
         </div>
     );
