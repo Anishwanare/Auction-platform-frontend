@@ -6,7 +6,7 @@ import HeadingTitle from '@/custom-components/HeadingTitle';
 import { login } from '@/store/slices/userSlice';
 
 const Login = () => {
-    const { isAuthenticated, loading, error } = useSelector((state) => state.User);
+    const { isAuthenticated, loading } = useSelector((state) => state.User);
     const { isSuperAdminAuthenticated } = useSelector((state) => state.SuperAdmin);
     const dispatch = useDispatch();
     const navigateTo = useNavigate();
@@ -29,10 +29,7 @@ const Login = () => {
         if (isAuthenticated || isSuperAdminAuthenticated) {
             navigateTo('/');
         }
-        if (error) {
-            toast.error(error);
-        }
-    }, [isAuthenticated, isSuperAdminAuthenticated, error, navigateTo]);
+    }, [isAuthenticated, isSuperAdminAuthenticated, navigateTo]);
 
     return (
         <section className="bg-gray-200 w-full min-h-screen py-20 lg:pl-[320px] flex flex-col items-center ">
@@ -76,9 +73,8 @@ const Login = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`bg-blue-600 text-white text-lg py-2 rounded-md transition duration-300 ${
-                            loading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-blue-700'
-                        }`}
+                        className={`bg-blue-600 text-white text-lg py-2 rounded-md transition duration-300 ${loading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-blue-700'
+                            }`}
                     >
                         {loading ? 'Logging in...' : 'Login'}
                     </button>

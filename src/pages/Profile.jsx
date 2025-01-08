@@ -54,7 +54,7 @@ const ProfileCard = () => {
                         </div>
                     </div>
 
-                    <div id="payment-methods" className="mb-6">
+                    {user.role === "Auctioneer" && <div id="payment-methods" className="mb-6">
                         <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Payment Methods</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -70,7 +70,7 @@ const ProfileCard = () => {
                                 <p className="text-gray-800 font-medium">{user?.paymentMethods?.razorpay?.razorpayAccountNumber || 'N/A'}</p>
                             </div>
                         </div>
-                    </div>
+                    </div>}
 
                     <div id="account-info" className="mb-6">
                         <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Account Information</h3>
