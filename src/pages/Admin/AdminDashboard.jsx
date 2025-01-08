@@ -11,12 +11,17 @@ import UsersGraph from './Graphs/UsersGraph';
 const AdminDashboard = () => {
     const { loading, monthlyRevenue, allUsers, paymentProofs, messages } = useSelector((state) => state.SuperAdmin);
     const { allAuctions } = useSelector((state) => state.Auction);
-    const { isAuthenticated } = useSelector((state) => state.User)
+    const { isAuthenticated, user } = useSelector((state) => state.User)
     const dispatch = useDispatch();
     const navigate = useNavigate("/")
     const totalBidders = allUsers.filter((bidder) => bidder?.role === "Bidder")
     const totalAuctioneers = allUsers.filter((Auctioneer) => Auctioneer?.role === "Auctioneer")
 
+    useEffect(() => {
+        if (!isAuthenticated && user?.role !== "SuperAdmin") {
+            navigate("/")
+        }
+    }, [isAuthenticated, user?.role])
 
 
     useEffect(() => {
@@ -86,7 +91,7 @@ const AdminDashboard = () => {
                 </Link>
             </div>
             <PaymentGraph />
-            <UsersGraph/>
+            <UsersGraph />
             {/* <BiddersGraph/>
             <AuctioneerGraph/> */}
         </div>
