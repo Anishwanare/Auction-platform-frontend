@@ -161,7 +161,7 @@ export const fetchAllUsers = () => async (dispatch) => {
     dispatch(SuperAdminSlice.actions.fetchAllUsersRequest())
     try {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL
-            }/api/v4/superadmin/fetchall/users`, { withCredentials: true })
+            }/api/v4/superadmin/fetchall/users`, { withCredentials: true, headers: { "Content-Type": "application/json" } })
         dispatch(SuperAdminSlice.actions.fetchAllUsersSuccess(response.data?.users));
         console.log("users", response?.data?.users)
         // toast.success(response?.data?.message);
@@ -177,7 +177,7 @@ export const fetchAllPaymentsProofs = () => async (dispatch) => {
     dispatch(SuperAdminSlice.actions.fetchAllPaymentProofRequest())
     try {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v4/superadmin/paymentproof/details`,
-            { withCredentials: true })
+            { withCredentials: true, headers: { 'Content-Type': 'application/json' } })
         dispatch(SuperAdminSlice.actions.fetchAllPaymentProofSuccess(response.data)
         );
         console.log("payments proofs:", response.data?.getAllPaymentsProof)
@@ -193,7 +193,7 @@ export const fetchSinglePaymentProof = (id) => async (dispatch) => {
     try {
         const response = await axios.get(
             `${import.meta.env.VITE_API_BASE_URL}/api/v4/superadmin/paymentproof/details/${id}`,
-            { withCredentials: true }
+            { withCredentials: true, headers: { 'Content-Type': 'application/json' } }
         );
         dispatch(SuperAdminSlice.actions.fetchSinglePaymentProofSuccess(response.data));
         // toast.success(response?.data?.message);

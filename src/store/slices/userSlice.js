@@ -181,6 +181,7 @@ export const logout = (user) => async (dispatch) => {
     // Make the API request
     const response = await axios.get(apiUrl, {
       withCredentials: true,
+      headers: { "Content-Type": "application/json" }
     });
 
     // Dispatch appropriate action based on user role
@@ -219,6 +220,7 @@ export const fetchProfile = () => async (dispatch) => {
       `${import.meta.env.VITE_API_BASE_URL}/api/v1/user/me`,
       {
         withCredentials: true,
+        headers: { "Content-Type": "application/json" }
       }
     );
     dispatch(userSlice.actions.fetchUserSuccess(response.data.user));
@@ -238,6 +240,7 @@ export const fetchAdminProfile = () => async (dispatch) => {
       `${import.meta.env.VITE_API_BASE_URL}/api/v4/superadmin/admin/me`,
       {
         withCredentials: true,
+        headers: { 'Content-Type': 'multipart/form-data' }
       }
     );
     console.log("yupppp", response?.data?.admin)
@@ -254,7 +257,10 @@ export const fetchAdminProfile = () => async (dispatch) => {
 export const fetchLeaderboard = () => async (dispatch) => {
   dispatch(userSlice.actions.fetchLeaderBoardRequest())
   try {
-    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/user/leaderboard`, { withCredentials: true })
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/user/leaderboard`, {
+      withCredentials: true,
+      headers: { 'Content-Type': 'application/json' }
+    })
     dispatch(userSlice.actions.fetchLeaderBoardSuccess(response.data?.leaderBoard))
     console.log("successfully fetched leaderboard", response.data?.leaderBoard)
     dispatch(userSlice.actions.clearAllErrors())
